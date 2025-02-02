@@ -1,19 +1,34 @@
 (function() {
-    // Carrega CSS
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = 'https://cdn.jsdelivr.net/gh/italogermando/cp-bg@main/base.css';
-    document.head.appendChild(link);
+    // Set initial theme from localStorage
+    document.body.setAttribute('data-theme', localStorage.getItem('theme') || 'light');
+    
+    // Function to load resources in sequence
+    function loadResources() {
+        // Load CSS first
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://cdn.jsdelivr.net/gh/italogermando/cp-bg@main/base.css';
+        document.head.appendChild(link);
 
-    // Carrega HTML
-    fetch('https://cdn.jsdelivr.net/gh/italogermando/cp-bg@main/base.html')
-        .then(r => r.text())
-        .then(html => {
-            document.body.insertAdjacentHTML('afterbegin', html);
-        });
+        // Load HTML and then JS
+        fetch('https://cdn.jsdelivr.net/gh/italogermando/cp-bg@main/base.html')
+            .then(response => response.text())
+            .then(html => {
+                // Insert HTML
+                document.body.insertAdjacentHTML('afterbegin', html);
+                
+                // After HTML is loaded, load JS
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/gh/italogermando/cp-bg@main/base.js';
+                document.body.appendChild(script);
+            })
+            .catch(error => console.error('Error loading background theme:', error));
+    }
 
-    // Carrega JS
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/gh/italogermando/cp-bg@main/base.js';
-    document.body.appendChild(script);
+    // Initialize loader
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadResources);
+    } else {
+        loadResources();
+    }
 })();
