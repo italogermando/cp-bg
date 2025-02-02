@@ -1,0 +1,143 @@
+        :root {
+            --primary-light: #6366f1;
+            --primary-dark: #4f46e5;
+            --bg-light: #f8fafc;
+            --bg-dark: #0f172a;
+            --text-light: #334155;
+            --text-dark: #e2e8f0;
+        }
+
+        [data-theme="dark"] {
+            --bg-main: var(--bg-dark);
+            --text-main: var(--text-dark);
+            --primary: var(--primary-light);
+            --grid-color: rgba(226, 232, 240, 0.07);
+            --gradient-start: var(--bg-dark);
+            --gradient-end: rgba(99, 102, 241, 0.08);
+            --toggle-bg: #1e293b;
+            --toggle-border: rgba(226, 232, 240, 0.1);
+            --toggle-pill: #0f172a;
+            --toggle-text: #94a3b8;
+            --toggle-active: #e2e8f0;
+        }
+
+        [data-theme="light"] {
+            --bg-main: var(--bg-light);
+            --text-main: var(--text-light);
+            --primary: var(--primary-dark);
+            --grid-color: rgba(51, 65, 85, 0.06);
+            --gradient-start: var(--bg-light);
+            --gradient-end: rgba(99, 102, 241, 0.05);
+            --toggle-bg: #ffffff;
+            --toggle-border: rgba(51, 65, 85, 0.1);
+            --toggle-pill: #f1f5f9;
+            --toggle-text: #64748b;
+            --toggle-active: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg-main);
+            color: var(--text-main);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Grid Background */
+        .background-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 64px 64px;
+            z-index: 0;
+        }
+
+        /* Linear Gradient Overlay */
+        .gradient-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, 
+                var(--gradient-start) 0%,
+                var(--gradient-end) 100%
+            );
+            z-index: 1;
+        }
+
+        /* Modern SaaS Theme Toggle */
+        .theme-toggle-wrapper {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px;
+            background: var(--toggle-bg);
+            border: 1px solid var(--toggle-border);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .theme-option {
+            position: relative;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--toggle-text);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .theme-option.active {
+            color: var(--toggle-active);
+            background: var(--toggle-pill);
+        }
+
+        .theme-option:not(.active):hover {
+            color: var(--toggle-active);
+            background: var(--toggle-pill);
+            opacity: 0.7;
+        }
+
+        .theme-icon {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 6px;
+        }
+
+        .theme-icon svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--text-main);
+        }
