@@ -6,6 +6,7 @@
     const baseHTML = `
         <div class="background-wrapper"></div>
         <div class="gradient-overlay"></div>
+        
         <div class="theme-toggle-wrapper">
             <div class="theme-option active" data-theme="light">
                 <span class="theme-icon">
