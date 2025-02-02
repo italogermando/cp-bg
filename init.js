@@ -1,7 +1,4 @@
 (function() {
-    // Define light como padrão, sem verificar localStorage
-    document.body.setAttribute('data-theme', 'light');
-
     // Insere o HTML base já com light ativo
     const baseHTML = `
         <body data-theme="light">
