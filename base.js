@@ -1,26 +1,25 @@
-// base.js
 (function() {
     // Função para aplicar o tema
     function applyTheme(theme) {
-        document.body.setAttribute('data-theme', theme);
-        const allOptions = document.querySelectorAll('.theme-option');
-        allOptions.forEach(opt => opt.classList.remove('active'));
-        const activeOption = document.querySelector(`[data-theme="${theme}"]`);
-        if (activeOption) activeOption.classList.add('active');
+        document.documentElement.dataset.theme = theme;
+        document.body.dataset.theme = theme;
+        
+        // Atualiza os botões
+        document.querySelectorAll('.theme-option').forEach(opt => {
+            opt.classList.toggle('active', opt.dataset.theme === theme);
+        });
     }
 
-    // Aplica o tema imediatamente
+    // Aplica o tema inicial imediatamente
     const savedTheme = localStorage.getItem('theme') || 'light';
     applyTheme(savedTheme);
 
-    // Configura os listeners após o DOM carregar
+    // Adiciona os event listeners após o DOM carregar
     document.addEventListener('DOMContentLoaded', () => {
-        // Garante que o tema está aplicado mesmo após o DOM carregar
+        // Re-aplica o tema para garantir
         applyTheme(savedTheme);
 
-        // Adiciona os event listeners
-        const themeOptions = document.querySelectorAll('.theme-option');
-        themeOptions.forEach(option => {
+        document.querySelectorAll('.theme-option').forEach(option => {
             option.addEventListener('click', () => {
                 const newTheme = option.dataset.theme;
                 applyTheme(newTheme);
@@ -29,8 +28,8 @@
         });
     });
 
-    // Garante que o tema está aplicado mesmo se o script carregar depois do DOM
-    if (document.readyState === 'complete') {
+    // Se o DOM já estiver carregado, aplica imediatamente
+    if (document.readyState !== 'loading') {
         applyTheme(savedTheme);
     }
 })();
