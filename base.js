@@ -1,26 +1,36 @@
 // base.js
 (function() {
-    // Define o tema inicial imediatamente antes de qualquer coisa
+    // Função para aplicar o tema
+    function applyTheme(theme) {
+        document.body.setAttribute('data-theme', theme);
+        const allOptions = document.querySelectorAll('.theme-option');
+        allOptions.forEach(opt => opt.classList.remove('active'));
+        const activeOption = document.querySelector(`[data-theme="${theme}"]`);
+        if (activeOption) activeOption.classList.add('active');
+    }
+
+    // Aplica o tema imediatamente
     const savedTheme = localStorage.getItem('theme') || 'light';
-    document.body.setAttribute('data-theme', savedTheme);
+    applyTheme(savedTheme);
 
+    // Configura os listeners após o DOM carregar
     document.addEventListener('DOMContentLoaded', () => {
-        const themeOptions = document.querySelectorAll('.theme-option');
-        
-        // Remove active de todas as opções
-        themeOptions.forEach(opt => opt.classList.remove('active'));
-        
-        // Adiciona active na opção correta
-        document.querySelector(`[data-theme="${savedTheme}"]`)?.classList.add('active');
+        // Garante que o tema está aplicado mesmo após o DOM carregar
+        applyTheme(savedTheme);
 
+        // Adiciona os event listeners
+        const themeOptions = document.querySelectorAll('.theme-option');
         themeOptions.forEach(option => {
             option.addEventListener('click', () => {
                 const newTheme = option.dataset.theme;
-                themeOptions.forEach(opt => opt.classList.remove('active'));
-                option.classList.add('active');
-                document.body.setAttribute('data-theme', newTheme);
+                applyTheme(newTheme);
                 localStorage.setItem('theme', newTheme);
             });
         });
     });
+
+    // Garante que o tema está aplicado mesmo se o script carregar depois do DOM
+    if (document.readyState === 'complete') {
+        applyTheme(savedTheme);
+    }
 })();
